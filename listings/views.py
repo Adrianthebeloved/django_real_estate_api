@@ -1,79 +1,57 @@
+from django.shortcuts import render, redirect
 from .models import Listing
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from listings.serializers import ListingSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+from .forms import ListingForm
 
-class ListApiView(APIView):
-    #permission_classes=[IsAuthenticated]
+# CRUD - create, retrieve, update, delete, list
 
-    create_serializer = ListingSerializer
 
+def listing_list(request):
     listings = Listing.objects.all()
-
-    def get(self, id=False):
-
-        if id:
-
-            listing = self.listings.filter(id=id)
-            
-            if listing.exists():
-
-                serializer = self.create_serializer(listing.first())
-
-                print(serializer.data)
-
-                return Response(serializer.data, status=status.HTTP_200_OK)
-
-            else:
-
-                return Response({"Error": "Page not found"}, status=status.HTTP_404_NOT_FOUND)
-        else:
-
-            serializer = self.create_serializer(self.listings.all(), many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request):
-
-        serializer = self.create_serializer(data = request.data)
-        
-        if serializer.is_valid(): 
-            
-                serializer.save()
-
-                return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    context = {
+        "listings": listings
+    }
+    return render(request, "listings.html", context)
 
 
-@api_view(['POST'])
-#@permission_classes([IsAuthenticated])
-def update_listing(request, id):
-    listing = Listing.objects.get(id=id)
-    
-    serializer = ListingSerializer(instance=listing, data=request.data)
-
-    if serializer.is_valid():
-
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    else:
-
-        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+def listing_retrieve(request, pk):
+    listing = Listing.objects.get(id=pk)
+    context = {
+        "listing": listing
+    }
+    return render(request, "listing.html", context)
 
 
-@api_view(['DELETE'])
-#@permission_classes([IsAuthenticated])
-def delete_listing(request, id):
+def listing_create(request):
+    form = ListingForm()
+    if request.method == "POST":
+        form = ListingForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
 
-    listing = Listing.objects.get(id=id)
+    context = {
+        "form": form
+    }
+    return render(request, "listing_create.html", context)
 
+
+def listing_update(request, pk):
+    listing = Listing.objects.get(id=pk)
+    form = ListingForm(instance=listing)
+
+    if request.method == "POST":
+        form = ListingForm(request.POST, instance=listing, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+
+    context = {
+        "form": form
+    }
+    return render(request, "listing_update.html", context)
+
+
+def listing_delete(request, pk):
+    listing = Listing.objects.get(id=pk)
     listing.delete()
-
-    return Response(status=status.HTTP_202_ACCEPTED)
+    return redirect("/")
