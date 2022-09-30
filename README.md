@@ -24,7 +24,7 @@ This repository is the final code for a basic Real estate website.
 
 ## Listing Model
 
-```json
+```
 class Listing(models.Model):
     title = models.CharField(max_length=150)
     price = models.IntegerField()
@@ -41,7 +41,7 @@ class Listing(models.Model):
 ### CRUD Operations
 
 ## Listings List View
-```json
+```
 def listing_list(request):
     listings = Listing.objects.all()
     context = {
@@ -52,7 +52,7 @@ def listing_list(request):
 - This function takes in a GET request and returns all the Objects of the Listing model and renders these objects on the corresponding HTML page.
 
 ## Listing View
-```json
+```
 def listing_retrieve(request, pk):
     listing = Listing.objects.get(id=pk)
     context = {
@@ -63,7 +63,7 @@ def listing_retrieve(request, pk):
 - This function take in a GET request and the id of a particular listing and returns the listing with said id, and renders it on the corresponding HTML page
 
 ## Listing Create View
-```json
+```
 csrf_exempt
 def listing_create(request):
     form = ListingForm()
@@ -83,7 +83,7 @@ Here we make use of Django's ModelForms to retrieve input from the User.
 The function also has a csrf_exempt decorator to exempt it from csrf authentication, making it accessible to un-authenticated users
 
 ## Listing Update View
-```json
+```
 @csrf_exempt
 def listing_update(request, pk):
     listing = Listing.objects.get(id=pk)
@@ -103,7 +103,7 @@ def listing_update(request, pk):
 - This function represents the view for updating a Listing. It takes a POST request and primary key parameters and returns the object at that particular ID for editing.
 
 ## Listing Delete
-```json
+```
 @csrf_exempt
 def listing_delete(request, pk):
     listing = Listing.objects.get(id=pk)
