@@ -35,7 +35,7 @@ def listing_create(request):
     }
     return render(request, "listing_create.html", context)
 
-
+@csrf_exempt
 def listing_update(request, pk):
     listing = Listing.objects.get(id=pk)
     form = ListingForm(instance=listing)
@@ -51,7 +51,7 @@ def listing_update(request, pk):
     }
     return render(request, "listing_update.html", context)
 
-
+@csrf_exempt
 def listing_delete(request, pk):
     listing = Listing.objects.get(id=pk)
     listing.delete()
