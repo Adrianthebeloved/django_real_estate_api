@@ -6,6 +6,8 @@
     <h3 class="text-3xl text-gray-900">{{ listing.title }}</h3>
     <p class="text-gray-900">${{ listing.price }}</p>
     <p class="text-gray-600 text-sm">{{ listing.address }}</p>
+    <p class="text-gray-600 text-sm">{{ listing.num_bedrooms }}</p>
+    <p class="text-gray-600 text-sm">{{ listing.num_bathrooms }}</p>
     <img src="{{ listing.image.url }}" alt="" />
 
     {% comment %} {% if request.user.is_staff %} {% endcomment %}
