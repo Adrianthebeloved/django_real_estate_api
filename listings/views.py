@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Listing
 from .forms import ListingForm
+from django.views.decorators.csrf import csrf_exempt
 
 # CRUD - create, retrieve, update, delete, list
 
@@ -20,7 +21,7 @@ def listing_retrieve(request, pk):
     }
     return render(request, "listing.html", context)
 
-
+@csrf_exempt
 def listing_create(request):
     form = ListingForm()
     if request.method == "POST":
