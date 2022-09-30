@@ -111,3 +111,9 @@ def listing_delete(request, pk):
     return redirect("/")
 ```
 - This function deletes a particular listing from the database.
+
+## Deployment
+- Deployment is from the main branch
+- The Django server was deployed on railway.app platform at https://web-production-23f7.up.railway.app/
+- A PostgreSQL was also provisioned on railway.app
+- Custom domain currently a WIP
