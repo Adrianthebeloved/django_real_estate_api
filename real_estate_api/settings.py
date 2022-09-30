@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'real_estate_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'CkqoGNKivu7u3BKqgHvj',
+        'HOST': 'containers-us-west-28.railway.app',
+        'PORT': '6446',
     }
 }
 
