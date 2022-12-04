@@ -23,7 +23,7 @@ from listings.views import (
     listing_retrieve,
     listing_create,
     listing_update,
-    listing_delete
+    listing_delete,
 )
 
 urlpatterns = [
